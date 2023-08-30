@@ -203,6 +203,7 @@ func home(w http.ResponseWriter, r *http.Request) {
         }
         content.Name=urlPath
         content.WebRoot=config.WebRoot
+				content.Host=config.ForceUrl
         tmpl.Execute(w, content)
     }
 }
