@@ -326,6 +326,48 @@ func viewshare(w http.ResponseWriter, r *http.Request) {
     tmpl.Execute(w, share)
 }
 
+func logged(w http.ResponseWriter, r *http.Request) {
+	html := `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logged</title>
+	<style>
+	html {
+		height: 100vh;
+	}
+	body {
+		height: 100vh;
+		margin: 0;
+		font-family: Arial, Helvetica, sans-serif;
+		display: grid;
+		justify-items: center;
+		align-items: center;
+		background-color: #3a3a3a;
+	}
+	#main-holder {
+		width: 50%;
+		height: 70%;
+		display: grid;
+		justify-items: center;
+		align-items: center;
+		background-color: white;
+		border-radius: 7px;
+		box-shadow: 0px 0px 5px 2px black;
+	}
+	</style>
+</head>
+<body>
+	<main id="main-holder">
+		<h1>인증에 성공했습니다. 원래 페이지로 접속하세요.</h1>
+	</main>
+</body>
+</html>`
+
+	fmt.Fprint(w, html)
+}
+
 
 func initFlag() {
     Listen := flag.String("listen", "127.0.0.1:5000", "a string")
@@ -368,6 +410,7 @@ func main() {
     http.HandleFunc(config.WebRoot + "/createshare/", createshare)
     http.HandleFunc(config.WebRoot + "/getshare/", getshare)
     http.HandleFunc(config.WebRoot + "/delshare/", delshare)
+    http.HandleFunc(config.WebRoot + "/logged/", logged)
     
     if _, err := os.Stat(config.SharePath); os.IsNotExist(err) {
         os.Mkdir(config.SharePath,0755)
